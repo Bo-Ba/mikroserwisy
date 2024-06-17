@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "boba.microservice2";
+option java_outer_classname = "MicroservicesProto";
+
+service ExperimentService {
+
+  rpc getResponse (Request) returns (Response) {
+  }
+}
+
+message Request {
+  int32 size = 1;
+}
+
+message Response {
+  string payload = 1;
+}

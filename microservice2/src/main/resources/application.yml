@@ -1,0 +1,34 @@
+management:
+  server:
+    port: 1026
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+tracing:
+  url: http://production-collector.observability.svc.cluster.local:4317
+
+
+
+spring:
+  application:
+    name: microservice2
+
+# Security configuration, to ignore all endpoints (not recommended for production)
+security:
+  ignored: /**
+
+#logging:
+#  pattern:
+#    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'ube
+
+grpc:
+  server:
+    port: 1025
