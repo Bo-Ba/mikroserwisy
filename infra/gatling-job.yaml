@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gatling
+spec:
+  template:
+    spec:
+      containers:
+        - name: gatling
+          image: europe-north1-docker.pkg.dev/root-augury-420915/microservice/gatling
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: gcs-creds
+              mountPath: /etc/gcs
+              readOnly: true
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/etc/gcs/root-augury-420915-4772106ed0a4.json"
+            - name: SIMULATION
+              value: "RaisingUsersTests"
+            - name: RAMP_USERS
+              value: "10"
+#            - name: RAMP_DURATION
+#              value: "10"
+#            - name: CONSTANT_DURATION`
+#              value: "10"
+#            - name: DURATION
+#              value: "10"
+      volumes:
+        - name: gcs-creds
+          secret:
+            secretName: gatling-gcs-credentials
+      restartPolicy: Never
+  backoffLimit: 0
