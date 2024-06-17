@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice1
+    job: microservice1
+  name: microservice1
+spec:
+  ports:
+    - name: http
+      port: 1026
+      protocol: TCP
+      targetPort: 1026
+    - name: https
+      port: 1025
+      protocol: TCP
+      targetPort: 1025
+  selector:
+    app.kubernetes.io/name: microservice1
+  type: ClusterIP

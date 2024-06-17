@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: microservice1
+    job: microservice1
+  name: microservice1
+#  namespace: microservices
+spec:
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: microservice1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: microservice1
+    spec:
+#      volumes:
+#        - name: ssl-cert-volume
+#          secret:
+#            secretName: microservices-ssl
+      containers:
+        - name: microservice1
+#          volumeMounts:
+#            - name: ssl-cert-volume
+#              mountPath: "/etc/ssl/certs"
+#              readOnly: true
+          ports:
+            - containerPort: 1026
+              name: http
+            - containerPort: 1025
+              name: https
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          env:
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: jks-password-secret
+          image: europe-north1-docker.pkg.dev/root-augury-420915/microservice/microservice1
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+#          livenessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: /q/health/live
+#              port: 8080
+#              scheme: HTTP
+#            initialDelaySeconds: 5
+#            periodSeconds: 10
+#            successThreshold: 1
+#            timeoutSeconds: 10
+#          name: administrator
+#          ports:
+#            - containerPort: 8080
+#              name: http
+#              protocol: TCP
+#          readinessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: /q/health/live
+#              port: 8080
+#              scheme: HTTP
+#            initialDelaySeconds: 5
+#            periodSeconds: 10
+#            successThreshold: 1
+#            timeoutSeconds: 10
+#          resources: {}
+#          startupProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: /q/health/live
+#              port: 8080
+#              scheme: HTTP
+#            initialDelaySeconds: 5
+#            periodSeconds: 10
+#            successThreshold: 1
+#            timeoutSeconds: 10
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

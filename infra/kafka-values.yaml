@@ -1,0 +1,27 @@
+replicaCount: 1 #3
+defaultReplicationFactor: 1 #3
+offsetsTopicReplicationFactor: 1 #3
+numPartitions: 1 #10
+
+zookeeper:
+  replicaCount: 1 #3
+
+resources:
+  limits:
+    cpu: "2"
+    memory: 4Gi
+  requests:
+    cpu: "1"
+    memory: 2Gi
+
+maxRequestSize: _1700000
+maxMessageBytes: _1700000
+socketRequestMaxBytes: _154857600
+deleteTopicEnable: true
+#1gb
+logRetentionBytes:  _507374182
+#3 minutes
+logRetentionHours: 1
+logRetentionCheckIntervalMs: 30000
+persistence:
+  size: 20Gi

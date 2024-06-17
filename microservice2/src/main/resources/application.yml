@@ -1,0 +1,36 @@
+management:
+  server:
+    port: 1026
+    ssl:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+tracing:
+  url: http://production-collector.observability.svc.cluster.local:4317
+
+
+
+spring:
+  application:
+    name: microservice2
+  kafka:
+    bootstrap-servers: kafka.default.svc.cluster.local:9092
+    consumer.enable-auto-commit: false
+    consumer.auto-offset-reset: latest
+    listener.ack-mode: manual_immediate
+
+security:
+  ignored: /**
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
