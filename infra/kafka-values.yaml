@@ -1,0 +1,14 @@
+replicaCount: 1 #3
+defaultReplicationFactor: 1 #3
+offsetsTopicReplicationFactor: 1 #3
+numPartitions: 1 #10
+
+zookeeper:
+  replicaCount: 1 #3
+
+logRetentionBytes: _209715200
+logRetentionHours: 1
+logRetentionCheckIntervalMs: 65000
+
+maxMessageBytes: _157286400
+socketRequestMaxBytes: _157286400
