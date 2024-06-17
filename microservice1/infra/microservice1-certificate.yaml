@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: microservice1-selfsigned-certificate
+  namespace: default
+spec:
+  keystores:
+    jks:
+      passwordSecretRef:
+        name: jks-password-secret
+        key: password
+      create: true
+  issuerRef:
+    name: selfsigned-issuer
+    group: cert-manager.io
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+    - microservice1.default.svc.cluster.local
+  secretName: microservice1-selfsigned-certificate
+  commonName: microservice1.default.svc.cluster.local

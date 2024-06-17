@@ -1,0 +1,48 @@
+server:
+  port: 1025
+
+management:
+  server:
+    port: 1026
+    ssl:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+tracing:
+  url: http://production-collector.observability.svc.cluster.local:4317
+
+
+spring:
+  application:
+    name: microservice1
+  rabbitmq:
+    host: rabbitmq.default.svc.cluster.local
+    port: 5672
+    username: admin
+    password: admin
+    listener:
+      direct:
+        retry:
+          enabled: false
+      simple:
+        retry:
+          enabled: false
+    template:
+      retry:
+        enabled: false
+
+security:
+  ignored: /**
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
