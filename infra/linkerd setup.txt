@@ -1,0 +1,9 @@
+linkerd check --pre
+linkerd install --crds | kubectl apply -f -
+linkerd install | kubectl apply -f -
+kubectl get deploy microservice1 microservice2 -o yaml | linkerd inject --proxy-memory-request 100Mi - | kubectl apply -f -
+--proxy-cpu-limit 100m
+--proxy-memory-limit 100Mi
+--proxy-cpu-request 100m
+--proxy-memory-request 200Mi --proxy-memory-limit 200Mi
+
